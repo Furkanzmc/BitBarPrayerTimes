@@ -12,3 +12,6 @@ Example script to use in a separate folder.
 
 chmod +x /Users/Furkanzmc/Development/GitHub/BitBarPrayerTimes/prayer_times.py && /Users/Furkanzmc/Development/GitHub/BitBarPrayerTimes/prayer_times.py
 ```
+# Credits
+
+Prayer time calculation is taken from [here](http://praytimes.org/code/git/?a=tree&p=PrayTimes&hb=HEAD&f=v2/python)
