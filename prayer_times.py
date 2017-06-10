@@ -433,8 +433,8 @@ if __name__ == "__main__":
     prayTimes = PrayTimes()
     print('Prayer Times | dropdown=false')
     is_current_time_passed = True
-    latitude = None
-    longitude = None
+    latitude = 36.915113
+    longitude = 30.656890
 
     # If corelocationcli is installed, get the location
     # Get it from here: https://github.com/fulldecent/corelocationcli
