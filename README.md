@@ -13,8 +13,14 @@ Example script to use in a separate folder.
 chmod +x /Users/Furkanzmc/Development/GitHub/BitBarPrayerTimes/prayer_times.py && /Users/Furkanzmc/Development/GitHub/BitBarPrayerTimes/prayer_times.py
 ```
 
-Save this script into your BitBar plugins directory and give necessary permissions using `chmod +x ~/BitBar/Plugins/BitBarPrayerTimes.sh` .
+Save this script into your BitBar plugins directory and give necessary permissions using `chmod +x ~/BitBar/Plugins/BitBarPrayerTimes.sh`.
+
+# Arguments
+
+## --no-remaining
+
+This will disable the remining time showing. This way you can increase the refresh rate of the script to 1 day.
 
 # Credits
 
-Prayer time calculation is taken from [here](http://praytimes.org/code/git/?a=tree&p=PrayTimes&hb=HEAD&f=v2/python)
+Prayer time calculation is taken from [here](http://praytimes.org/code/git/?a=tree&p=PrayTimes&hb=HEAD&f=v2/python). I just formatted the code.
