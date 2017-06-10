@@ -17,19 +17,19 @@ Save this script into your BitBar plugins directory and give necessary permissio
 
 # Arguments
 
-Available Args:
-    --no-remaining: This will disable the remining time showing. This way you can increase the refresh rate of the script to 1 day.
-    --calculation-method: Select the calculation method. The default is ISNA
-        - Available options are:
-        - MWL: Muslim World League
-        - ISNA: Islamic Society of North America (ISNA)
-        - Egypt: Egyptian General Authority of Survey
-        - Makkah: Umm Al-Qura University, Makkah
-        - Karachi: University of Islamic Sciences, Karachi'
-        - Tehran: Institute of Geophysics, University of Tehran
-        - Jafari: Shia Ithna-Ashari, Leva Institute, Qum
+**--no-remaining:** This will disable the remining time showing. This way you can increase the refresh rate of the script to 1 day.
 
-Example:
+**--calculation-method:** Select the calculation method. The default is ISNA. Available options are:
+- MWL: Muslim World League
+- ISNA: Islamic Society of North America (ISNA)
+- Egypt: Egyptian General Authority of Survey
+- Makkah: Umm Al-Qura University, Makkah
+- Karachi: University of Islamic Sciences, Karachi'
+- Tehran: Institute of Geophysics, University of Tehran
+- Jafari: Shia Ithna-Ashari, Leva Institute, Qum
+
+**Example:**
+
     prayer_times.py --calculation-method MWL
 
 # Credits
