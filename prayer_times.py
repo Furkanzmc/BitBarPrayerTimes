@@ -124,7 +124,7 @@ class PrayTimes():
 
     # ---------------------- Default Settings --------------------
 
-    calcMethod = 'MWL'
+    calcMethod = 'ISNA'
 
     # do not change anything here; use adjust method instead
     settings = {
@@ -143,16 +143,15 @@ class PrayTimes():
 
     # ---------------------- Initialization -----------------------
 
-    def __init__(self, method="MWL"):
-
+    def __init__(self, method="ISNA"):
         # set methods defaults
-        for method, config in self.methods.items():
+        for method_name, config in self.methods.items():
             for name, value in self.defaultParams.items():
                 if name not in config['params'] or config['params'][name] is None:
                     config['params'][name] = value
 
         # initialize settings
-        self.calcMethod = method if method in self.methods else 'MWL'
+        self.calcMethod = method if method in self.methods else 'ISNA'
         params = self.methods[self.calcMethod]['params']
         for name, value in params.items():
             self.settings[name] = value
@@ -250,7 +249,7 @@ class PrayTimes():
         q = self.fixangle(280.459 + 0.98564736 * D)
         L = self.fixangle(q + 1.915 * self.sin(g) + 0.020 * self.sin(2 * g))
 
-        R = 1.00014 - 0.01671 * self.cos(g) - 0.00014 * self.cos(2 * g)
+        # R = 1.00014 - 0.01671 * self.cos(g) - 0.00014 * self.cos(2 * g)
         e = 23.439 - 0.00000036 * D
 
         RA = self.arctan2(self.cos(e) * self.sin(L), self.cos(L)) / 15.0
@@ -463,8 +462,8 @@ def main():
         elif sys.argv[1] == "--no-remaining":
             is_remaining_disabled = True
 
-    prayTimes = PrayTimes()
-    print('Prayer Times | dropdown=false')
+    prayTimes = PrayTimes('ISNA')
+    print('Prayer Times %s | dropdown=false' % (prayTimes.calcMethod))
     is_current_time_passed = True
     latitude = None
     longitude = None
