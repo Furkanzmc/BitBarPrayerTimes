@@ -522,7 +522,7 @@ Example:
             color = "gray"
             if delta.seconds < 0:
                 color = "#424242"
-            elif is_current_time_passed:
+            elif is_current_time_passed and is_remaining_disabled is False:
                 is_current_time_passed = False
                 if is_remaining_disabled is False:
                     remaining_minutes = ":".join(str(delta).split(":")[:2])
