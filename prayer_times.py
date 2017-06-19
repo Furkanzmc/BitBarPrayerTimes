@@ -6,6 +6,7 @@ import math
 import re
 import subprocess
 import datetime
+from datetime import timedelta
 import dateutil.tz
 import sys
 
@@ -484,13 +485,27 @@ Example:
             if len(sys.argv) > found_index + 1:
                 calculation_method = sys.argv[found_index + 1]
 
+    upcoming_prayers, print_queue, calc_method = get_prayer_times(datetime.date.today(), calculation_method, is_remaining_disabled)
+    if len(upcoming_prayers) == 0:
+        upcoming_prayers, print_queue, calc_method = get_prayer_times(datetime.date.today() + timedelta(days=1), calculation_method, is_remaining_disabled)
+
+    if len(upcoming_prayers) > 0:
+        print(upcoming_prayers[0] + ' | dropdown=false')
+        print('---')
+
+    print("Calculation Method: %s" % (calc_method))
+    for i in print_queue:
+        print(i)
+
+
+def get_prayer_times(date, calculation_method, is_remaining_disabled):
     print_queue = []
     pray_times = PrayTimes(calculation_method)
     prayer_names_pretty = {'fajr': 'Fajr   ', 'sunrise': 'Sunrise', 'dhuhr': 'Dhuhr  ', 'asr': 'Asr    ', 'maghrib': 'Maghrib' , 'isha': 'Isha   '}
     prayer_time_passed = False
     upcoming_prayers = []
-    latitude = 36.915113
-    longitude = 30.656890
+    latitude = None
+    longitude = None
 
     localtz = dateutil.tz.tzlocal()
     localoffset = localtz.utcoffset(datetime.datetime.now(localtz))
@@ -509,15 +524,18 @@ Example:
     if latitude is None or longitude is None:
         print("Cannot get the location through CoreLocationCLI. Please install it or type in custome location.")
     else:
-        times = pray_times.get_times(datetime.date.today(), (latitude, longitude), timezone_offset)
+        times = pray_times.get_times(date, (latitude, longitude), timezone_offset)
         for i in ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']:
 
             prayer_hour = int(times[i.lower()].split(":")[0])
             prayer_minute = int(times[i.lower()].split(":")[1])
 
             now = datetime.datetime.now()
-            time_str = "%s.%s.%s %s:%s" % (now.year, now.month, now.day, prayer_hour, prayer_minute)
+            time_str = "%s.%s.%s %s:%s" % (date.year, date.month, date.day, prayer_hour, prayer_minute)
             prayer_date = datetime.datetime.strptime(time_str, '%Y.%m.%d %H:%M')
+
+            time_str = "%s.%s.%s %s:%s" % (now.year, now.month, now.day, 23, 11)
+            now = datetime.datetime.strptime(time_str, '%Y.%m.%d %H:%M')
 
             delta = prayer_date - now
 
@@ -541,13 +559,7 @@ Example:
 
             print_queue.append(prayer_names_pretty[str(i.lower())] + ': ' + times[i.lower()] + remaining + ' | font=\'Monaco\', color=' + color)
 
-    if len(upcoming_prayers) > 0:
-        print(upcoming_prayers[0] + ' | dropdown=false')
-        print('---')
-
-    print("Calculation Method: %s" % (pray_times.calc_method))
-    for i in print_queue:
-        print(i)
+    return upcoming_prayers, print_queue, pray_times.calc_method
 
 
 if __name__ == "__main__":
