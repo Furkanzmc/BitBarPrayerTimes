@@ -12,8 +12,8 @@ import sys
 """
 --------------------- Copyright Block ----------------------
 
-pray_times.py: Prayer Times Calculator (ver 2.3)
-Copyright (C) 2007-2011 pray_times.org
+praytimes.py: Prayer Times Calculator (ver 2.3)
+Copyright (C) 2007-2011 PrayTimes.org
 
 Python Code: Saleem Shafi, Hamid Zarrabi-Zadeh
 Original js Code: Hamid Zarrabi-Zadeh
@@ -24,7 +24,7 @@ TERMS OF USE:
     Permission is granted to use this code, with or
     without modification, in any website or application
     provided that credit is given to the original work
-    with a link back to pray_times.org.
+    with a link back to PrayTimes.org.
 
 This program is distributed in the hope that it will
 be useful, but WITHOUT ANY WARRANTY.
@@ -35,10 +35,10 @@ PLEASE DO NOT REMOVE THIS COPYRIGHT BLOCK.
 --------------------- Help and Manual ----------------------
 
 User's Manual:
-http://pray_times.org/manual
+http://praytimes.org/manual
 
 Calculation Formulas:
-http://pray_times.org/calculation
+http://praytimes.org/calculation
 
 
 ------------------------ User Interface -------------------------
