@@ -56,14 +56,14 @@ http://praytimes.org/calculation
 
 ------------------------- Sample Usage --------------------------
 
-    >>> PT = PrayTimes('ISNA')
+    >>> PT = pray_times('ISNA')
     >>> times = PT.getTimes((2011, 2, 9), (43, -80), -5)
     >>> times['sunrise']
     07:26
 
 """
 
-# ----------------------- PrayTimes Class ------------------------
+# ----------------------- pray_times Class ------------------------
 
 
 class PrayTimes():
@@ -484,12 +484,13 @@ Example:
             if len(sys.argv) > found_index + 1:
                 calculation_method = sys.argv[found_index + 1]
 
-    prayTimes = PrayTimes(calculation_method)
-    print('Prayer Times | dropdown=false')
-    print("Calculation Method: %s" % (prayTimes.calc_method))
-    is_current_time_passed = True
-    latitude = None
-    longitude = None
+    print_queue = []
+    pray_times = PrayTimes(calculation_method)
+    prayer_names_pretty = {'fajr': 'Fajr   ', 'sunrise': 'Sunrise', 'dhuhr': 'Dhuhr  ', 'asr': 'Asr    ', 'maghrib': 'Maghrib' , 'isha': 'Isha   '}
+    prayer_time_passed = False
+    upcoming_prayers = []
+    latitude = 36.915113
+    longitude = 30.656890
 
     localtz = dateutil.tz.tzlocal()
     localoffset = localtz.utcoffset(datetime.datetime.now(localtz))
@@ -508,30 +509,45 @@ Example:
     if latitude is None or longitude is None:
         print("Cannot get the location through CoreLocationCLI. Please install it or type in custome location.")
     else:
-        times = prayTimes.get_times(datetime.date.today(), (latitude, longitude), timezone_offset)
+        times = pray_times.get_times(datetime.date.today(), (latitude, longitude), timezone_offset)
         for i in ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']:
+
             prayer_hour = int(times[i.lower()].split(":")[0])
             prayer_minute = int(times[i.lower()].split(":")[1])
+
             now = datetime.datetime.now()
             time_str = "%s.%s.%s %s:%s" % (now.year, now.month, now.day, prayer_hour, prayer_minute)
             prayer_date = datetime.datetime.strptime(time_str, '%Y.%m.%d %H:%M')
 
             delta = prayer_date - now
+
+            if str(delta).find('-1 day'):
+                prayer_time_passed = True
+
             remaining = ""
 
             color = "gray"
             if delta.seconds < 0:
                 color = "#424242"
-            elif is_current_time_passed and is_remaining_disabled is False:
-                is_current_time_passed = False
+            elif prayer_time_passed:
                 if is_remaining_disabled is False:
                     remaining_minutes = ":".join(str(delta).split(":")[:2])
                     remaining = " (" + str(remaining_minutes) + " Remaining)"
                     color = "#E53935" if remaining_minutes < 15 else "#4CAF50"
+                    upcoming_prayers.append(i + ': ' + times[i.lower()] + ' (' + str(remaining_minutes) + ')' + ' | font=\'Monaco\', color=' + color)
                 else:
                     color = "#4CAF50"
+                    upcoming_prayers.append(i + ': ' + times[i.lower()] + ' | font=\'Monaco\', color=' + color)
 
-            print(i + ': ' + times[i.lower()] + remaining + " | color=" + color)
+            print_queue.append(prayer_names_pretty[str(i.lower())] + ': ' + times[i.lower()] + remaining + ' | font=\'Monaco\', color=' + color)
+
+    if len(upcoming_prayers) > 0:
+        print(upcoming_prayers[0] + ' | dropdown=false')
+        print('---')
+
+    print("Calculation Method: %s" % (pray_times.calc_method))
+    for i in print_queue:
+        print(i)
 
 
 if __name__ == "__main__":
