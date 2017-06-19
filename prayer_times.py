@@ -457,12 +457,14 @@ class PrayTimes():
 def main():
     is_remaining_disabled = False
     calculation_method = 'ISNA'
+    bar_label = "Prayer Times"
     if len(sys.argv) > 1:
         if "--help" in sys.argv:
             print(
                 """
 Available Args:
     --no-remaining: This will disable the remining time showing. This way you can increase the refresh rate of the script to 1 day.
+    --bar-label: This will be used if --no-remaining parameter is given. This way you can change the label that appears on the bar.
     --calculation-method: Select the calculation method. The default is ISNA
         - Available options are:
         - MWL: Muslim World League
@@ -480,17 +482,24 @@ Example:
             return
         if "--no-remaining" in sys.argv:
             is_remaining_disabled = True
-        elif "--calculation-method" in sys.argv:
+        if "--calculation-method" in sys.argv:
             found_index = sys.argv.index("--calculation-method")
             if len(sys.argv) > found_index + 1:
                 calculation_method = sys.argv[found_index + 1]
+        if "--bar-label" in sys.argv:
+            found_index = sys.argv.index("--bar-label")
+            if len(sys.argv) > found_index + 1:
+                bar_label = sys.argv[found_index + 1]
 
     upcoming_prayers, print_queue, calc_method = get_prayer_times(datetime.date.today(), calculation_method, is_remaining_disabled)
     if len(upcoming_prayers) == 0:
         upcoming_prayers, print_queue, calc_method = get_prayer_times(datetime.date.today() + timedelta(days=1), calculation_method, is_remaining_disabled)
 
-    if len(upcoming_prayers) > 0:
+    if len(upcoming_prayers) > 0 and is_remaining_disabled is False:
         print(upcoming_prayers[0] + ' | dropdown=false')
+        print('---')
+    else:
+        print(bar_label)
         print('---')
 
     print("Calculation Method: %s" % (calc_method))
