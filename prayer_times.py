@@ -534,9 +534,6 @@ def get_prayer_times(date, calculation_method, is_remaining_disabled):
             time_str = "%s.%s.%s %s:%s" % (date.year, date.month, date.day, prayer_hour, prayer_minute)
             prayer_date = datetime.datetime.strptime(time_str, '%Y.%m.%d %H:%M')
 
-            time_str = "%s.%s.%s %s:%s" % (now.year, now.month, now.day, 23, 11)
-            now = datetime.datetime.strptime(time_str, '%Y.%m.%d %H:%M')
-
             delta = prayer_date - now
 
             if str(delta).find('-1 day'):
@@ -546,15 +543,13 @@ def get_prayer_times(date, calculation_method, is_remaining_disabled):
 
             color = "gray"
             if delta.seconds < 0:
-                color = "#424242"
+                color = "#E53935"
             elif prayer_time_passed:
                 if is_remaining_disabled is False:
                     remaining_minutes = ":".join(str(delta).split(":")[:2])
                     remaining = " (" + str(remaining_minutes) + " Remaining)"
-                    color = "#E53935" if remaining_minutes < 15 else "#4CAF50"
                     upcoming_prayers.append(i + ': ' + times[i.lower()] + ' (' + str(remaining_minutes) + ')' + ' | font=\'Monaco\', color=' + color)
                 else:
-                    color = "#4CAF50"
                     upcoming_prayers.append(i + ': ' + times[i.lower()] + ' | font=\'Monaco\', color=' + color)
 
             print_queue.append(prayer_names_pretty[str(i.lower())] + ': ' + times[i.lower()] + remaining + ' | font=\'Monaco\', color=' + color)
