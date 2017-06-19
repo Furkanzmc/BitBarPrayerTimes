@@ -56,14 +56,14 @@ http://praytimes.org/calculation
 
 ------------------------- Sample Usage --------------------------
 
-    >>> PT = pray_times('ISNA')
+    >>> PT = PrayTimes('ISNA')
     >>> times = PT.getTimes((2011, 2, 9), (43, -80), -5)
     >>> times['sunrise']
     07:26
 
 """
 
-# ----------------------- pray_times Class ------------------------
+# ----------------------- PrayTimes Class ------------------------
 
 
 class PrayTimes():
